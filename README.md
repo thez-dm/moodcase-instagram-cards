@@ -8,24 +8,36 @@ images by URL, and `raw.githubusercontent.com` serves these files directly.
 
 **This repo is intentionally public** — it contains only finished quote-card
 images that are published to Instagram anyway. No strategy, voice, or product
-files live here. Those stay in the private `moodcase-content-hub` repo.
+files live here. Those stay in the private `moodcase-content-hub` repo, which
+is where the cards are generated.
+
+## Folder convention
+
+A card's location tells you its Buffer status:
+
+- **Repo root** — a new card, generated but NOT yet pushed to Buffer.
+- **`_pushed/`** — the card has been pushed to the Buffer Idea Inbox. Once an
+  idea exists in Buffer, Buffer keeps its own copy of the image, so moving the
+  PNG here does not affect the idea.
+
+The `instagram-quote-batch` task adds new cards at the root, pushes the Buffer
+idea, then moves the PNG into `_pushed/`.
 
 ## Contents
 
-36 PNGs — 18 quote slugs, each in two colorways:
+18 quote slugs, each in two colorways:
 
 - `quote-cloud-{slug}.png` — light (Cloud) variant
 - `quote-midnight-{slug}.png` — dark (Midnight) variant
 
 ## URL pattern
 
+A card already pushed to Buffer (in `_pushed/`):
+
 ```
-https://raw.githubusercontent.com/thez-dm/moodcase-quote-cards/main/quote-cloud-{slug}.png
-https://raw.githubusercontent.com/thez-dm/moodcase-quote-cards/main/quote-midnight-{slug}.png
+https://raw.githubusercontent.com/thez-dm/moodcase-quote-cards/main/_pushed/quote-cloud-{slug}.png
+https://raw.githubusercontent.com/thez-dm/moodcase-quote-cards/main/_pushed/quote-midnight-{slug}.png
 ```
 
-## How it stays current
-
-The `instagram-quote-batch` scheduled task (defined in `moodcase-content-hub`)
-generates new quote cards every ~2 weeks. It commits each new PNG here and then
-pushes a matching image idea to the Buffer Idea Inbox.
+A brand-new card not yet pushed sits at the root (no `_pushed/` segment). The
+Buffer idea is created using the root URL, then the file is moved to `_pushed/`.
